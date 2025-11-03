@@ -1,0 +1,79 @@
+{% extends 'assessment/base.html' %}
+
+{% block title %}Assessment Results - RoadHealth AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+    <h2 style="margin-bottom: 2rem; text-align: center;">Assessment Results</h2>
+    
+    <div class="card">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <img src="{{ assessment.image.url }}" alt="Pavement" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+            
+            <div>
+                <h3 style="margin-bottom: 1rem;">Analysis Summary</h3>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #6b7280; margin-bottom: 0.25rem;">Overall Condition</label>
+                    <span style="padding: 0.5rem 1rem; border-radius: 20px; background: {{ assessment.get_condition_color }}; color: white; text-transform: capitalize; font-weight: bold; font-size: 1.1rem;">
+                        {{ assessment.overall_condition }}
+                    </span>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #6b7280; margin-bottom: 0.25rem;">Distress Type</label>
+                    <div style="font-weight: 600; text-transform: capitalize;">{{ assessment.get_distress_type_display }}</div>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #6b7280; margin-bottom: 0.25rem;">Severity Score</label>
+                    <div style="font-weight: 600;">{{ assessment.severity_score }}%</div>
+                    <div style="width: 100%; height: 10px; background: #e5e7eb; border-radius: 5px; overflow: hidden; margin-top: 0.5rem;">
+                        <div style="width: {{ assessment.severity_score }}%; height: 100%; background: {{ assessment.get_condition_color }};"></div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #6b7280; margin-bottom: 0.25rem;">Crack Density</label>
+                    <div style="font-weight: 600;">{{ assessment.crack_density }}%</div>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: #6b7280; margin-bottom: 0.25rem;">Confidence Level</label>
+                    <div style="font-weight: 600;">{{ assessment.confidence_level }}%</div>
+                </div>
+            </div>
+        </div>
+        
+        {% if assessment.location %}
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+            <label style="display: block; color: #6b7280; margin-bottom: 0.5rem;">Location</label>
+            <div>{{ assessment.location }}</div>
+        </div>
+        {% endif %}
+        
+        {% if assessment.notes %}
+        <div style="margin-top: 1rem;">
+            <label style="display: block; color: #6b7280; margin-bottom: 0.5rem;">Notes</label>
+            <div>{{ assessment.notes }}</div>
+        </div>
+        {% endif %}
+        
+        <div style="margin-top: 1rem;">
+            <label style="display: block; color: #6b7280; margin-bottom: 0.5rem;">Analyzed On</label>
+            <div>{{ assessment.uploaded_at|date:"F d, Y H:i" }}</div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <a href="{% url 'upload_image' %}" class="btn btn-primary">Analyze Another</a>
+            <a href="{% url 'assessment_history' %}" class="btn btn-secondary">View History</a>
+            <form method="post" action="{% url 'delete_assessment' assessment.pk %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this assessment?')">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
