@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}RoadHealth AI{% endblock %}</title>
+    <title>{% block title %}Citizen Feedback on Maintenance of Road{% endblock %}</title>
     <style>
         * {
             margin: 0;
@@ -138,7 +138,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="{% url 'home' %}" class="navbar-brand">🛣️ RoadHealth AI</a>
+            <a href="{% url 'home' %}" class="navbar-brand">🛣️ Citizen Feedback on Maintenance of Road</a>
             <ul class="navbar-menu">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'upload_image' %}">Upload</a></li>
@@ -160,7 +160,7 @@
     </div>
     
     <footer>
-        <p>&copy; 2025 RoadHealth AI - Automated Pavement Condition Assessment</p>
+        <p>&copy; 2025 Citizen Feedback on Maintenance of Road</p>
     </footer>
     
     {% block extra_js %}{% endblock %}
